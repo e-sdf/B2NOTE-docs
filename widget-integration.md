@@ -1,7 +1,3 @@
----
-description: B2NOTE widget integrator's guide
----
-
 # Widget Integration
 
 ## IFRAME Integration

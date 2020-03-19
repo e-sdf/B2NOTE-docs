@@ -1,6 +1,5 @@
----
-description: B2NOTE v3 documentation
----
+# B2NOTE Documentation
 
-# b2note-docs
-
+- Widget integration
+- Self-hosted instance
+- API reference
