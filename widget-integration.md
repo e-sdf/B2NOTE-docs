@@ -6,6 +6,19 @@ This variant uses embedded `<div>` with `<iframe>`. The integration example is i
 
 As this integration is the easiest at the side of an integrating service, it is currently the preferred one, although integrating the JavaScript app is also possible (contact us if interested).
 
+### Target types
+
+The following target types are distinguised based on the provided parameters:
+
+| Target Type             | `pid_tofeed` | `subject_tofeed` | `xPath_tofeed` | `textContent_tofeed` | `startOffset_tofeed` | `endOffset_tofeed` | `svgSelector_tofeed` |
+| ----------------------  | :----------: | :--------------: | :------------: | :------------------: | :------------------: | :----------------: | :------------------: |
+| Page                    |      x       |                  |                |                      |                      |                    |                      |
+| Link on page            |      x       |        x         |                |                      |                      |                    |                      |
+| Text selection on page  |      x       |                  |       x        |          x           |         x            |         x          |                      |
+| Image                   |      x       |                  |                |                      |                      |                    |          x           |
+| Image on page           |      x       |        x         |                |                      |                      |                    |          x           |
+
+
 ### Notifications
 
 The hosting page is notified of the following events using the JavaScript [postMessage](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage) functionality:
