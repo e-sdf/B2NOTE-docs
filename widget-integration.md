@@ -15,8 +15,8 @@ The following target types are distinguised based on the provided parameters:
 | Page                    |      x       |                  |                |                      |                      |                    |                      |
 | Link on page            |      x       |        x         |                |                      |                      |                    |                      |
 | Text selection on page  |      x       |                  |       x        |          x           |         x            |         x          |                      |
-| Image                   |      x       |                  |                |                      |                      |                    |          x           |
-| Image on page           |      x       |        x         |                |                      |                      |                    |          x           |
+| Image region            |      x       |                  |                |                      |                      |                    |          x           |
+| Image region on page    |      x       |        x         |                |                      |                      |                    |          x           |
 
 
 ### Notifications
