@@ -8,15 +8,15 @@ As this integration is the easiest at the side of an integrating service, it is 
 
 ### Target types
 
-The following target types are distinguised based on the provided parameters:
+The following target types are distinguised based on the provided parameters. See [https://www.w3.org/TR/annotation-model/](Web Annotation Data Model) for details; `pidName_tofeed` and `subjectName_tofeed` are extensions allowing to provide human-friendly names to URLs. 
 
-| Target Type                   | `pid_tofeed` | `subject_tofeed` | `xPath_tofeed` | `textContent_tofeed` | `startOffset_tofeed` | `endOffset_tofeed` | `svgSelector_tofeed` |
-| ----------------------------- | :----------: | :--------------: | :------------: | :------------------: | :------------------: | :----------------: | :------------------: |
-| Page                          |      x       |                  |                |                      |                      |                    |                      |
-| Any link on page              |      x       |        x         |                |                      |                      |                    |                      |
-| Text selection on page        |      x       |                  |       x        |          x           |         x            |         x          |                      |
-| Image region(\*)              |      x       |                  |                |                      |                      |                    |          x           |
-| Image region on page(\*\*)    |      x       |        x         |                |                      |                      |                    |          x           |
+| Target Type                   | `pid_tofeed` | `pidName_tofeed` | `subject_tofeed` | `subjectName_tofeed` | `xPath_tofeed` | `textContent_tofeed` | `startOffset_tofeed` | `endOffset_tofeed` | `svgSelector_tofeed` |
+| ----------------------------- | :----------: | :--------------: | :--------------: | :------------------: | :------------: | :------------------: | :------------------: | :----------------: | :------------------: |
+| Page                          |      x       |   optional       |                  |                      |                |                      |                      |                    |                      |
+| Any link on page              |      x       |   optional       |        x         |      optional        |                |                      |                      |                    |                      |
+| Text selection on page        |      x       |   optional       |                  |                      |       x        |          x           |         x            |         x          |                      |
+| Image region(\*)              |      x       |   optional       |                  |                      |                |                      |                      |                    |          x           |
+| Image region on page(\*\*)    |      x       |   optional       |        x         |      optional        |                |                      |                      |                    |          x           |
 
 (\*) ... `pid_to_feed` is URL of the image
 
