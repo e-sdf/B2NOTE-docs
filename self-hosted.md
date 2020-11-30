@@ -11,7 +11,6 @@ The B2NOTE service consists of the following parts
 - `b2note-api` &#8212; annotation API server
 - `b2note-widget` &#8212; widget for embedding in services + its server
 - `b2note-app` &#8212; Central UI application + its server
-- `b2note-web` &#8212; [B2NOTE web page](https://b2note.bsc.es); contains also a Sandbox for playing with the B2NOTE widget.
 
 ## Set Up for Deployment
 
@@ -103,31 +102,6 @@ By default, the `latest` version is pulled from [Docker Hub](https://hub.docker.
 
 - `pull-api.sh`
 - `b2note-app/docker-compose.yml`
-
-## Setting Up the Web Server
-
-Create `.env` configuration file. In the `b2note-deployment` directory, issue the commands:
-
-```
-cd b2note-web
-cp .env.sample .env
-```
-
-Edit the file in case you changed the port of the Widget server or you want to change the default port of the Web server. 
-
-### Changing the Default Port
-
-The standard ports used by the B2NOTE Web server is 3062. If you want to change it:
-
-- Edit the `ports` section in the `docker-compose.yml` file.
-- Edit `PORT` variable in `.env`.
-
-### Changing the Version
-
-By default, the `latest` version is pulled from [Docker Hub](https://hub.docker.com/repository/docker/b2note/b2note-web) and used. If you wish to use a different version, you need to make the respective change in the following files:
-
-- `pull-api.sh`
-- `b2note-web/docker-compose.yml`
 
 ## Accessing B2NOTE from the Internet
 
