@@ -3,27 +3,53 @@
   "$ref": "#/definitions/TargetInput",
   "$schema": "http://json-schema.org/draft-07/schema#",
   "definitions": {
-    "CellAddress": {
+    "CellRange": {
       "additionalProperties": false,
       "properties": {
-        "row": {
+        "endColumn": {
           "type": "number"
+        },
+        "endRow": {
+          "type": "number"
+        },
+        "startColumn": {
+          "type": "number"
+        },
+        "startRow": {
+          "type": "number"
+        },
+        "type": {
+          "const": "CellRange",
+          "type": "string"
         }
       },
       "required": [
-        "row"
+        "type",
+        "startColumn",
+        "endColumn",
+        "startRow",
+        "endRow"
       ],
       "type": "object"
     },
-    "ColumnAddress": {
+    "ColumnRange": {
       "additionalProperties": false,
       "properties": {
-        "row": {
+        "endColumn": {
           "type": "number"
+        },
+        "startColumn": {
+          "type": "number"
+        },
+        "type": {
+          "const": "ColumnRange",
+          "type": "string"
         }
       },
       "required": [
-        "row"
+        "type",
+        "startColumn",
+        "endColumn"
       ],
       "type": "object"
     },
@@ -141,7 +167,7 @@
         "pidName": {
           "type": "string"
         },
-        "selector": {
+        "svgSelector": {
           "type": "string"
         },
         "type": {
@@ -156,82 +182,37 @@
       ],
       "type": "object"
     },
-    "RowAddress": {
+    "RowRange": {
       "additionalProperties": false,
       "properties": {
-        "row": {
+        "endRow": {
           "type": "number"
+        },
+        "startRow": {
+          "type": "number"
+        },
+        "type": {
+          "const": "RowRange",
+          "type": "string"
         }
       },
       "required": [
-        "row"
+        "type",
+        "startRow",
+        "endRow"
       ],
       "type": "object"
     },
     "TableRange": {
       "anyOf": [
         {
-          "additionalProperties": false,
-          "properties": {
-            "end": {
-              "$ref": "#/definitions/RowAddress"
-            },
-            "start": {
-              "$ref": "#/definitions/RowAddress"
-            },
-            "type": {
-              "const": "RowRange",
-              "type": "string"
-            }
-          },
-          "required": [
-            "type",
-            "start",
-            "end"
-          ],
-          "type": "object"
+          "$ref": "#/definitions/RowRange"
         },
         {
-          "additionalProperties": false,
-          "properties": {
-            "end": {
-              "$ref": "#/definitions/ColumnAddress"
-            },
-            "start": {
-              "$ref": "#/definitions/ColumnAddress"
-            },
-            "type": {
-              "const": "ColumnRange",
-              "type": "string"
-            }
-          },
-          "required": [
-            "type",
-            "start",
-            "end"
-          ],
-          "type": "object"
+          "$ref": "#/definitions/ColumnRange"
         },
         {
-          "additionalProperties": false,
-          "properties": {
-            "end": {
-              "$ref": "#/definitions/CellAddress"
-            },
-            "start": {
-              "$ref": "#/definitions/CellAddress"
-            },
-            "type": {
-              "const": "CellRange",
-              "type": "string"
-            }
-          },
-          "required": [
-            "type",
-            "start",
-            "end"
-          ],
-          "type": "object"
+          "$ref": "#/definitions/CellRange"
         }
       ]
     },

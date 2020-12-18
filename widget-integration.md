@@ -1,87 +1,152 @@
-# Widget Integration
+# Widget Integration through IFRAME
 
-## IFRAME Integration
+The widget is embedded in a `<div>` within `<iframe>`. The integration example is in [this repository](https://github.com/e-sdf/B2NOTE-Integration-Example) with a commented HTML page and CSS file.
 
-This variant uses embedded `<div>` with `<iframe>`. The integration example is in [this repository](https://github.com/e-sdf/B2NOTE-Integration-Example) with a commented HTML page and CSS file.
+## Target parameters
 
-As this integration is the easiest at the side of an integrating service, it is currently the preferred one, although integrating the JavaScript app is also possible (contact us if interested).
+The target types are distinguised based on the provided parameters. For details about the targets in B2NOTE see [https://www.w3.org/TR/annotation-model/](Web Annotation Data Model). B2NOTE implements several extensions over this basic format.
 
-### Target types
+The annotated target is encoded in the POST parameters as shown in [the example](https://github.com/e-sdf/B2NOTE-Integration-Example/blob/master/Sample%20Page/index.html). There are currently two formats:
 
-The following target types are distinguised based on the provided parameters. See [https://www.w3.org/TR/annotation-model/](Web Annotation Data Model) for details; `pidName_tofeed` and `subjectName_tofeed` are extensions allowing to provide human-friendly names to URLs. 
+### Pid & Source format (DEPRECATED)
 
-| Target Type                   | `pid_tofeed` | `pidName_tofeed` | `subject_tofeed` | `subjectName_tofeed` | `xPath_tofeed` | `textContent_tofeed` | `startOffset_tofeed` | `endOffset_tofeed` | `svgSelector_tofeed` | `tableSelector_tofeed` | `pdfSelector_tofeed` |
-| ----------------------------- | :----------: | :--------------: | :--------------: | :------------------: | :------------: | :------------------: | :------------------: | :----------------: | :------------------: | :--------------------: | :------------------: |
-| Page                          |      x       |   optional       |                  |                      |                |                      |                      |                    |                      |                        |                      |
-| Any link on page              |      x       |   optional       |        x         |      optional        |                |                      |                      |                    |                      |                        |                      |
-| Text selection on page        |      x       |   optional       |                  |                      |       x        |          x           |         x            |         x          |                      |                        |                      |
-| Image region                  |      x       |   optional       |                  |                      |                |                      |                      |                    |          x           |                        |                      |
-| Image region on page          |      x       |   optional       |        x         |      optional        |                |                      |                      |                    |          x           |                        |                      |
-| Table file                    |      x       |   optional       |                  |                      |                |                      |                      |                    |                      |           x            |                      |
-| Table on page                 |      x       |   optional       |        x         |      optional        |                |                      |                      |                    |                      |           x            |                      |
-| PDF file                      |      x       |   optional       |                  |                      |                |                      |                      |                    |                      |                        |           x          |
-| PDF file on page              |      x       |   optional       |        x         |      optional        |                |                      |                      |                    |                      |                        |           x          |
+This is the old format that supports only limited annotation targets.
+
+| Target Type                   | `pid_tofeed` | `pidName_tofeed` | `subject_tofeed` | `subjectName_tofeed` |
+| ----------------------------- | :----------: | :--------------: | :--------------: | :------------------: |
+| Page                          |      x       |   optional       |                  |                      |
+| A resource link on the page   |      x       |   optional       |        x         |      optional        |
 
 - `pid_to_feed`
   - URL of the annotated resource (`subject_to_feed` not present)
   - URL of the page hosting the annotated resource (`subject_to_feed` present) 
-
 - `pidName_tofeed` ... optional name that will be displayed to user instead of `pid_tofeed`
 - `subject_tofeed` ... URL of the annotated resource on the page (link)
-- `subjectName_tofeed` ... optional name that will be displayed to user instead of `subject_tofeed`
-- `xPath_tofeed` ... XPath of the text element on page
-- `textContent_tofeed` ... selected text
-- `startOffset_tofeed` ... index of the first character of text selection (contents of `xPath_tofeed`)
-- `endOffset_tofeed` ... index of the last character of text selection (contents of `xPath_tofeed`)
-- `svgSelector_tofeed` ... string containing SVG
-- `tableSelector_tofeed` ... table selector specifying either entire sheet or its range conforming to the following TypesScript definition:
+- `subjectName_tofeed` ... optional name that will be displayed to user instead of `subject_tofeed` (e.g. file name)
 
-```typescript
-interface RowAddress {
-  row: number;
-}
 
-export interface ColumnAddress {
-  row: number;
-}
+### Target encoding
 
-interface CellAddress extends ColumnAddress, RowAddress {}
+This format contains a single parameter `target_toFeed` which is a string-encoded JSON object according to [this schema](./targetInput.schema.json). Here it is described how the various annotation targets are encoded.
 
-type TableRange = {
-  start: RowAddress;
-  end: RowAddress;
-} | {
-  start: ColumnAddress;
-  end: ColumnAddress;
-} | {
-  start: CellAddress;
-  end: CellAddress;
-}
+#### Whole Page
 
-interface TableSelector {
-  sheet: string;
-  range?: TableRange;
+```
+{
+  type: "PageTarget",
+  pid: "URL of the page",
+  pidName: "optional name that will be displayed to the user"
 }
 ```
 
-- `pdfSelector_tofeed` ... PDF document selector specifying a page number and optionally a selection on it conforming to the following TypesScript definition:
+#### A Resource Link on a Page
 
-```typescript
-interface PdfSelector {
-  pageNumber: number;
-  selection?: SvgSelector;
+```
+{
+  type: "LinkTarget",
+  pid: "URL of the page",
+  pidName: "optional name that will be displayed to the user",
+  source: "URL of the annotated resource",
+  sourceName: "optional name of the resource"
 }
 ```
 
-### Notifications
+#### Text Selection on a Page
+
+```
+{
+  type: "TextSelectionTarget",
+  pid: "URL of the page",
+  pidName: "optional name of the page",
+  xPath: "XPath of the node holding the text",
+  startOffset: "index of the first character of the selected text (number)",
+  endOffset: "index of the last character of the selected text (number)",
+  selectedText: "the selected text"
+}
+```
+
+#### Image Region
+
+```
+{
+  type: "ImageRegionTarget",
+  pid: "URL of the image",
+  pidName: "optional name of the image",
+  svgSelector: "string with an SVG shape representing the selected region"
+}
+```
+
+#### Image Region on a Page
+
+```
+{
+  type: "ImageRegionOnPageTarget",
+  pid: "URL of the page",
+  pidName: "optional name of the image",
+  source: "URL of the annotated resource",
+  sourceName: "optional name of the resource"
+  svgSelector: "string with an SVG shape representing the selected region"
+}
+```
+
+#### Table
+
+```
+{
+  type: "TableTarget",
+  pid: "URL of the table file (csv, xls, xlsx)",
+  pidName: "optional name of the table",
+  range: "optional TableRange object"
+}
+```
+
+The `TableRange` object can be one of the following:
+
+```
+{
+  type: "RowRange",
+  startRow: "number of the first row",
+  endRow: "number of the last row"
+}
+```
+
+```
+{
+  type: "ColumnRange",
+  startColumn: "number of the first column",
+  endColumn: "number of the last column"
+}
+```
+
+```
+{
+  type: "CellRange",
+  startColumn: "number of the first column",
+  endColumn: "number of the last column"
+  startRow: "number of the first row",
+  endRow: "number of the last row"
+}
+```
+
+#### PDF
+
+```
+{
+  type: "PdfTarget",
+  pageNumber: "number of the annotated page",
+  svgSelector: "optional string with an SVG shape selecting a part of the page (as image)"
+}
+```
+
+## Notifications
 
 The hosting page is notified of the following events using the JavaScript [postMessage](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage) functionality:
 
-#### Widget loaded
+### Widget loaded
 
 Once the widget is loaded, it emits the `"B2NOTE loaded"` message.
 
-#### Annotation events
+### Annotation events
 
 Operations on annotations are reported in the format:
 
