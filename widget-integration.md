@@ -96,6 +96,7 @@ This format contains a single parameter `target_toFeed` which is a string-encode
   type: "TableTarget",
   pid: "URL of the table file (csv, xls, xlsx)",
   pidName: "optional name of the table",
+  sheet: "optional name of a sheet",
   range: "optional TableRange object"
 }
 ```
