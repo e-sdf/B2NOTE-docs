@@ -17,9 +17,9 @@ This is the old format that supports only limited annotation targets.
 | Page                          |      x       |   optional       |                  |                      |
 | A resource link on the page   |      x       |   optional       |        x         |      optional        |
 
-- `pid_to_feed`
-  - URL of the annotated resource (`subject_to_feed` not present)
-  - URL of the page hosting the annotated resource (`subject_to_feed` present) 
+- `pid_tofeed`
+  - URL of the annotated resource (`subject_tofeed` not present)
+  - URL of the page hosting the annotated resource (`subject_tofeed` present) 
 - `pidName_tofeed` ... optional name that will be displayed to user instead of `pid_tofeed`
 - `subject_tofeed` ... URL of the annotated resource on the page (link)
 - `subjectName_tofeed` ... optional name that will be displayed to user instead of `subject_tofeed` (e.g. file name)
@@ -27,7 +27,7 @@ This is the old format that supports only limited annotation targets.
 
 ### Target encoding
 
-This format contains a single parameter `target_toFeed` which is a string-encoded JSON object according to [this schema](./targetInput.schema.json). Here it is described how the various annotation targets are encoded.
+This format contains a single parameter `target_tofeed` which is a string-encoded JSON object according to [this schema](./targetInput.schema.json). Here it is described how the various annotation targets are encoded.
 
 #### Whole Page
 
